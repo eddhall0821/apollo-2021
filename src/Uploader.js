@@ -10,7 +10,7 @@ const uploadFileMutation = gql`
   }
 `;
 
-export const Upload = () => {
+export const Uploader = () => {
   const [uploadFile] = useMutation(uploadFileMutation, {
     refetchQueries: [{ query: filesQuery }],
   });
