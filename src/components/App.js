@@ -4,6 +4,7 @@ import Detail from "../routes/Detail";
 import Test from "../routes/Test";
 import Upload from "../routes/Upload";
 import Labeling from "../routes/Labeling";
+import ProjectList from "../routes/ProjectList";
 
 function App() {
   return (
@@ -13,6 +14,7 @@ function App() {
       <Route path="/test" component={Test} />
       <Route path="/upload" component={Upload} />
       <Route path="/labeling" component={Labeling} />
+      <Route path="/project_list" component={ProjectList} />
     </Router>
   );
 }

@@ -15,6 +15,9 @@ const Navbar = () => {
           <Menu.Item key="home" icon={<MailOutlined />}>
             <Link to="/">홈</Link>
           </Menu.Item>
+          <Menu.Item key="project_list" icon={<MailOutlined />}>
+            <Link to="/project_list">프로젝트 리스트</Link>
+          </Menu.Item>
           <Menu.Item key="upload" icon={<MailOutlined />}>
             <Link to="/upload">이미지 업로드</Link>
           </Menu.Item>
