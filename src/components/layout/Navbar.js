@@ -1,4 +1,5 @@
-import { Layout, Menu } from "antd";
+import React, { useState } from "react";
+import { Menu } from "antd";
 import { MailOutlined } from "@ant-design/icons";
 import Block from "./Block";
 import styled from "styled-components";
@@ -7,7 +8,10 @@ import { Link } from "react-router-dom";
 const NavbarWrapper = styled.div`
   border-bottom: 1px solid #efefef;
 `;
+
 const Navbar = () => {
+  const [isModalVisible, setIsModalVisible] = useState(false);
+
   return (
     <NavbarWrapper>
       <Block>
@@ -23,6 +27,9 @@ const Navbar = () => {
           </Menu.Item>
           <Menu.Item key="labeling" icon={<MailOutlined />}>
             <Link to="/labeling">이미지 라벨링</Link>
+          </Menu.Item>
+          <Menu.Item key="login" icon={<MailOutlined />}>
+            <Link to="/login">로그인</Link>
           </Menu.Item>
         </Menu>
       </Block>
