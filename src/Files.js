@@ -12,14 +12,16 @@ export const filesQuery = gql`
 
 export const Files = () => {
   const { data, loading } = useQuery(filesQuery);
-  console.log(data);
   if (loading) {
     return <div>loading...</div>;
   }
 
+  if (data) {
+    console.log(data);
+  }
   return (
     <div>
-      {data.files.map((file, index) => (
+      {data?.files?.map((file, index) => (
         <img
           style={{ width: 200 }}
           key={index}

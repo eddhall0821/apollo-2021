@@ -11,7 +11,7 @@ function App() {
   return (
     <Router>
       <Route exact path="/" component={Home} />
-      <Route path="/detail/:id" component={Detail} />
+      {/* <Route path="/detail/:id" component={Detail} /> */}
       <Route path="/test" component={Test} />
       <Route path="/upload" component={Upload} />
       <Route path="/labeling" component={Labeling} />

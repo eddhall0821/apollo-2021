@@ -3,6 +3,9 @@ import React, { useState } from "react";
 import CommonPageLayout from "../components/layout/CommonPageLayout";
 import { gql } from "apollo-boost";
 import { useMutation } from "@apollo/react-hooks";
+import { graphql } from "graphql";
+import { currentUserVar } from "../apollo";
+import Logout from "./Logout";
 
 export const LOGIN = gql`
   mutation Login($userId: String!, $password: String!) {
@@ -10,6 +13,7 @@ export const LOGIN = gql`
       userId
       nickname
       role
+      token
     }
   }
 `;
@@ -22,6 +26,7 @@ const Login = () => {
 
   if (data) {
     console.log(data);
+    currentUserVar(data.login);
   }
 
   if (error) {
@@ -65,6 +70,7 @@ const Login = () => {
           </Button>
         </Form.Item>
       </Form>
+      <Logout />
     </CommonPageLayout>
   );
 };
