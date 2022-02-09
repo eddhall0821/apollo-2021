@@ -1,13 +1,12 @@
 import styled from "styled-components";
 
 const BlockContainer = styled.div`
-  display: flex;
+  // display: flex;
   flex-direction: column;
   align-items: center;
 `;
 const Inner = styled.div`
-  display: flex;
-  flex: 1;
+  margin: 0 auto;
   width: 100%;
   max-width: 1440px;
   padding: 16px;
