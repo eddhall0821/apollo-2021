@@ -6,6 +6,8 @@ import { Files } from "../Files";
 import Navbar from "../components/layout/Navbar";
 import CommonPageLayout from "../components/layout/CommonPageLayout";
 import styled from "styled-components";
+import { useHistory } from "react-router-dom";
+import Login from "./Login";
 
 const GET_MOVIES = gql`
   {
@@ -31,6 +33,52 @@ const DELETE_MOVIE = gql`
     }
   }
 `;
+const HeaderContainer = styled.div`
+  z-index: 1;
+  position: absolute;
+  width: 100%;
+  background-color: rgba(0, 21, 41, 0);
+`;
+
+const Header = styled.header`
+  max-width: 1200px;
+  position: relative;
+  margin: auto;
+  will-change: transform;
+  height: 100%;
+  padding: 0 24px;
+  font-size: 16px;
+`;
+const HeaderLogo = styled.div`
+  float: left;
+  line-height: 62px;
+  display: inline-block;
+  padding: 0 20px;
+  cursor: pointer;
+  background: 0 0;
+  color: #fff;
+  height: 64px;
+  border-bottom-color: transparent;
+  position: relative;
+  transition: color 0.3s cubic-bezier(0.645, 0.045, 0.355, 1),
+    border 0.3s cubic-bezier(0.645, 0.045, 0.355, 1);
+`;
+
+const HeaderMenu = styled.div`
+  float: right;
+  line-height: 62px;
+  display: inline-block;
+  padding: 0 20px;
+  cursor: pointer;
+  background: 0 0;
+  color: #fff;
+  height: 64px;
+  border-bottom-color: transparent;
+  position: relative;
+  transition: color 0.3s cubic-bezier(0.645, 0.045, 0.355, 1),
+    border 0.3s cubic-bezier(0.645, 0.045, 0.355, 1);
+`;
+
 const Banner = styled.div`
   width: 100%;
   height: 100vh;
@@ -95,6 +143,7 @@ const Content = styled.div`
   margin: auto;
   will-change: transform;
 `;
+
 const Home = () => {
   const [movieTitle, setMovieTitle] = useState("");
 
@@ -107,18 +156,31 @@ const Home = () => {
   }
 
   console.log(loading, error, data);
+  const history = useHistory();
 
   return (
     <>
       {/* <CommonPageLayout> */}
+      <HeaderContainer>
+        <Header>
+          <HeaderLogo>HOME</HeaderLogo>
+          <HeaderMenu>
+            <Login />
+          </HeaderMenu>
+          <HeaderMenu onClick={() => history.push("/project_list")}>
+            프로젝트 리스트
+          </HeaderMenu>
+          <HeaderMenu>about team</HeaderMenu>
+        </Header>
+      </HeaderContainer>
       <Banner>
         <BannerTextWrapper>
-          <BannerSlogan>BANNER SLOGAN</BannerSlogan>
-          <BannerName>banner name</BannerName>
+          <BannerSlogan>DATA LABELING ASSISTANT</BannerSlogan>
+          <BannerName>ai 기술을 활용한 데이터 라벨링 보조 서비스</BannerName>
         </BannerTextWrapper>
       </Banner>
       <ContentWrapper>
-        <Content>df</Content>
+        <Content></Content>
       </ContentWrapper>
       <Files />
 

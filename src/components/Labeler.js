@@ -125,8 +125,12 @@ const Labeler = () => {
 
   const deleteText = (index) => {
     let newArr = [...croppedData];
+    let URLArr = [...croppedURL];
+
+    URLArr.splice(index, 1);
     newArr.splice(index, 1);
 
+    setCroppedURL(URLArr);
     setCroppedData(newArr);
   };
 
@@ -159,7 +163,9 @@ const Labeler = () => {
   return (
     <>
       <Container>
-        <Typography.Title level={3}>글자 영역에 드래그 해주세요.</Typography.Title>
+        <Typography.Title level={3}>
+          글자 영역에 드래그 해주세요.
+        </Typography.Title>
 
         <Space style={{ marginBottom: 8 }}>
           <div>

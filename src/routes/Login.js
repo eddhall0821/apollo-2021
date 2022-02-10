@@ -1,4 +1,4 @@
-import { Form, Input, Button } from "antd";
+import { Form, Input, Button, Modal } from "antd";
 import React, { useState } from "react";
 import CommonPageLayout from "../components/layout/CommonPageLayout";
 import { gql } from "apollo-boost";
@@ -6,6 +6,7 @@ import { useMutation } from "@apollo/react-hooks";
 import { graphql } from "graphql";
 import { currentUserVar } from "../apollo";
 import Logout from "./Logout";
+import styled from "styled-components";
 
 export const LOGIN = gql`
   mutation Login($userId: String!, $password: String!) {
@@ -17,8 +18,7 @@ export const LOGIN = gql`
     }
   }
 `;
-
-const Login = () => {
+export const LoginForm = () => {
   const [login, { data, loading, error }] = useMutation(LOGIN);
   if (loading) {
     console.log(loading);
@@ -36,42 +36,75 @@ const Login = () => {
   const onFinish = ({ userId, password }) => {
     login({ variables: { userId, password } });
   };
+
   return (
-    <CommonPageLayout>
-      <Form
-        name="basic"
-        labelCol={{ span: 8 }}
-        wrapperCol={{ span: 16 }}
-        initialValues={{ remember: true }}
-        onFinish={onFinish}
-        // onFinishFailed={onFinishFailed}
-        layout="vertical"
-        autoComplete="off"
+    <Form
+      name="basic"
+      initialValues={{ remember: true }}
+      onFinish={onFinish}
+      // onFinishFailed={onFinishFailed}
+      layout="vertical"
+      autoComplete="off"
+      requiredMark={"optional"}
+    >
+      <Form.Item
+        label="ID"
+        name="userId"
+        rules={[{ required: true, message: "Please input your username!" }]}
       >
-        <Form.Item
-          label="userId"
-          name="userId"
-          rules={[{ required: true, message: "Please input your username!" }]}
-        >
-          <Input />
-        </Form.Item>
+        <Input />
+      </Form.Item>
 
-        <Form.Item
-          label="password"
-          name="password"
-          rules={[{ required: true, message: "Please input your password!" }]}
-        >
-          <Input.Password />
-        </Form.Item>
+      <Form.Item
+        label="비밀번호"
+        name="password"
+        rules={[{ required: true, message: "Please input your password!" }]}
+      >
+        <Input.Password />
+      </Form.Item>
 
-        <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
-          <Button type="primary" htmlType="submit">
-            Submit
-          </Button>
-        </Form.Item>
-      </Form>
-      <Logout />
-    </CommonPageLayout>
+      <Form.Item>
+        <Button type="primary" htmlType="submit" block>
+          Submit
+        </Button>
+      </Form.Item>
+      <Form.Item>
+        <Button block>회원가입</Button>
+      </Form.Item>
+    </Form>
+  );
+};
+
+const Login = () => {
+  const [isModalVisible, setIsModalVisible] = useState(false);
+
+  const showModal = () => {
+    setIsModalVisible(true);
+  };
+
+  const handleOk = () => {
+    setIsModalVisible(false);
+  };
+
+  const handleCancel = () => {
+    setIsModalVisible(false);
+  };
+
+  const LoginButton = styled.div``;
+  return (
+    <>
+      <LoginButton onClick={showModal}>로그인</LoginButton>
+      <Modal
+        style={{ width: 300 }}
+        title="로그인"
+        visible={isModalVisible}
+        onOk={handleOk}
+        onCancel={handleCancel}
+        footer={null}
+      >
+        <LoginForm />
+      </Modal>
+    </>
   );
 };
 

@@ -21,7 +21,7 @@ export const cache = new InMemoryCache({
 });
 const link = createUploadLink({ uri: "http://localhost:4000/" });
 const contextSetter = (_, { headers }) => {
-  const token = currentUserVar()?.token;
+  const token = currentUserVar()?.token | localStorage.getItem("token");
   return {
     headers: {
       ...headers,

@@ -14,7 +14,7 @@ function App() {
       {/* <Route path="/detail/:id" component={Detail} /> */}
       <Route path="/test" component={Test} />
       <Route path="/upload" component={Upload} />
-      <Route path="/labeling" component={Labeling} />
+      <Route path="/labeling/:id" component={Labeling} />
       <Route path="/project_list" component={ProjectList} />
       <Route path="/login" component={Login} />
     </Router>

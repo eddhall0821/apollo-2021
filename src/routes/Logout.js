@@ -14,7 +14,6 @@ const Logout = () => {
 
   return (
     <>
-      <Button onClick={() => console.log(currentUserVar())}>dfdf</Button>
       <Button onClick={() => logout()}>LOGOUT</Button>
     </>
   );
