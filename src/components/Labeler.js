@@ -1,36 +1,23 @@
-import React, { useRef, useState, useContext } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import Cropper from "react-cropper";
 import "cropperjs/dist/cropper.css";
 import { Button, Card, Form, Image, Input, Space, Typography } from "antd";
 import styled from "styled-components";
-import ScrollArea from "react-scrollbar";
 import { ScrollMenu } from "react-horizontal-scrolling-menu";
 
-const Container = styled.div`
-  display: flex;
-  flex-direction: column;
-`;
-const Arrow = styled.div`
-  width: 50px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-`;
+// const Arrow = styled.div`
+//   width: 50px;
+//   display: flex;
+//   justify-content: center;
+//   align-items: center;
+// `;
 
-const ScrollerContainer = styled.div`
-  display: block;
-`;
-const ImageContainer = styled.div`
-  width: 100%;
-  height: 200px;
-`;
-
-const LeftArrow = ({ scrollPrev }) => {
-  return <Arrow onClick={() => console.log(scrollPrev)}>{"<-"}</Arrow>;
-};
-const RightArrow = () => {
-  return <Arrow>{"->"}</Arrow>;
-};
+// const LeftArrow = ({ scrollPrev }) => {
+//   return <Arrow onClick={() => console.log(scrollPrev)}>{"<-"}</Arrow>;
+// };
+// const RightArrow = () => {
+//   return <Arrow>{"->"}</Arrow>;
+// };
 
 const LOADED_DATA = [
   {
@@ -75,6 +62,19 @@ const LOADED_DATA = [
   },
 ];
 
+const Container = styled.div`
+  display: flex;
+  flex-direction: column;
+`;
+
+const ScrollerContainer = styled.div`
+  display: block;
+`;
+const ImageContainer = styled.div`
+  width: 100%;
+  height: 200px;
+`;
+
 const Labeler = () => {
   const cropperRef = useRef(null);
   const [cropForm] = Form.useForm();
@@ -92,22 +92,19 @@ const Labeler = () => {
     const resultData = cropper.getData();
     const resultURL = cropper.getCroppedCanvas().toDataURL();
     resultData.text = values.currentText;
-
     cropForm.resetFields();
     setCroppedData([resultData, ...croppedData]);
     setCroppedURL([resultURL, ...croppedURL]);
   };
 
   const loadData = (loadedData) => {
-    const cropper = cropperInit();
     let url = [];
+    const cropper = cropperInit();
 
-    loadedData?.map((data) => {
-      console.log(data);
+    for (let data of loadedData) {
       cropper.setData(data);
-      url.push(cropper.getCroppedCanvas().toDataURL());
-    });
-
+      url.push(cropper.getCroppedCanvas()?.toDataURL());
+    }
     setCroppedData(loadedData);
     setCroppedURL(url);
   };
@@ -177,6 +174,7 @@ const Labeler = () => {
               // crop={onCrop}
               preview=".preview"
               ref={cropperRef}
+              ready={() => loadData(LOADED_DATA)}
             />
           </div>
 

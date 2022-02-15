@@ -1,12 +1,12 @@
 import { Form, Input, Button, Modal } from "antd";
 import React, { useState } from "react";
-import CommonPageLayout from "../components/layout/CommonPageLayout";
 import { gql } from "apollo-boost";
 import { useMutation } from "@apollo/react-hooks";
-import { graphql } from "graphql";
 import { currentUserVar } from "../apollo";
-import Logout from "./Logout";
 import styled from "styled-components";
+import Register from "./Register";
+
+const LoginButton = styled.div``;
 
 export const LOGIN = gql`
   mutation Login($userId: String!, $password: String!) {
@@ -18,7 +18,8 @@ export const LOGIN = gql`
     }
   }
 `;
-export const LoginForm = () => {
+
+export const LoginForm = ({ register }) => {
   const [login, { data, loading, error }] = useMutation(LOGIN);
   if (loading) {
     console.log(loading);
@@ -69,7 +70,9 @@ export const LoginForm = () => {
         </Button>
       </Form.Item>
       <Form.Item>
-        <Button block>회원가입</Button>
+        <Button block onClick={register}>
+          <Register />
+        </Button>
       </Form.Item>
     </Form>
   );
@@ -90,7 +93,6 @@ const Login = () => {
     setIsModalVisible(false);
   };
 
-  const LoginButton = styled.div``;
   return (
     <>
       <LoginButton onClick={showModal}>로그인</LoginButton>
@@ -102,7 +104,7 @@ const Login = () => {
         onCancel={handleCancel}
         footer={null}
       >
-        <LoginForm />
+        <LoginForm register={handleCancel} />
       </Modal>
     </>
   );

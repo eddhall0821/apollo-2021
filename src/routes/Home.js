@@ -3,11 +3,9 @@ import { gql } from "apollo-boost";
 import { useQuery, useMutation } from "@apollo/react-hooks";
 import "filepond/dist/filepond.min.css";
 import { Files } from "../Files";
-import Navbar from "../components/layout/Navbar";
-import CommonPageLayout from "../components/layout/CommonPageLayout";
 import styled from "styled-components";
 import { useHistory } from "react-router-dom";
-import Login from "./Login";
+import Login from "../components/Login";
 
 const GET_MOVIES = gql`
   {

@@ -1,8 +1,7 @@
 import { Button } from "antd";
-import React, { useState } from "react";
+import React from "react";
 import { gql } from "apollo-boost";
 import { useMutation } from "@apollo/react-hooks";
-import { currentUserVar } from "../apollo";
 
 const LOGOUT = gql`
   mutation {
@@ -11,7 +10,8 @@ const LOGOUT = gql`
 `;
 const Logout = () => {
   const [logout, args] = useMutation(LOGOUT);
-
+  console.log(args);
+  
   return (
     <>
       <Button onClick={() => logout()}>LOGOUT</Button>

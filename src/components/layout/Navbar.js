@@ -1,8 +1,8 @@
-import React, { useState } from "react";
+import React from "react";
 import Block from "./Block";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
-import Login from "../../routes/Login";
+import Login from "../Login";
 
 const NavbarWrapper = styled.div`
   border-bottom: 1px solid #efefef;
@@ -24,6 +24,7 @@ const MenuContent = styled.div`
 const MenuProfile = styled.div`
   cursor: pointer;
 `;
+
 const Navbar = () => {
   return (
     <NavbarWrapper>

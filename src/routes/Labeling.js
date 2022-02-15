@@ -1,5 +1,5 @@
 import CommonPageLayout from "../components/layout/CommonPageLayout";
-import React, { useState } from "react";
+import React from "react";
 import Labeler from "../components/Labeler";
 import { useParams } from "react-router-dom";
 

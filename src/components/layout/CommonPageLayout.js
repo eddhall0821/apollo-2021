@@ -2,7 +2,6 @@ import { Layout } from "antd";
 import styled from "styled-components";
 import Block from "./Block";
 import Navbar from "./Navbar";
-
 const GrayBackground = styled.div`
   background: #efefef;
 `;

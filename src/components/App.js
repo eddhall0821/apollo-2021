@@ -1,11 +1,9 @@
 import { HashRouter as Router, Route } from "react-router-dom";
 import Home from "../routes/Home";
-import Detail from "../routes/Detail";
 import Test from "../routes/Test";
 import Upload from "../routes/Upload";
 import Labeling from "../routes/Labeling";
 import ProjectList from "../routes/ProjectList";
-import Login from "../routes/Login";
 
 function App() {
   return (
@@ -16,7 +14,6 @@ function App() {
       <Route path="/upload" component={Upload} />
       <Route path="/labeling/:id" component={Labeling} />
       <Route path="/project_list" component={ProjectList} />
-      <Route path="/login" component={Login} />
     </Router>
   );
 }

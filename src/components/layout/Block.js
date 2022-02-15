@@ -1,5 +1,4 @@
 import styled from "styled-components";
-
 const BlockContainer = styled.div`
   // display: flex;
   flex-direction: column;

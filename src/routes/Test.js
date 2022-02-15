@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { gql } from "apollo-boost";
 import { useQuery } from "@apollo/react-hooks";
 
@@ -8,7 +8,7 @@ const GET_TESTS = gql`
   }
 `;
 
-export default () => {
+const Test = () => {
   const { loading, error, data } = useQuery(GET_TESTS);
   console.log(loading, error, data);
 
@@ -23,3 +23,5 @@ export default () => {
     </div>
   );
 };
+
+export default Test;

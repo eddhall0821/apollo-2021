@@ -1,5 +1,4 @@
-import CommonPageLayout from "../components/layout/CommonPageLayout";
-import React, { useState } from "react";
+import React from "react";
 import { Button, DatePicker, Form, Input, Select } from "antd";
 import { Uploader } from "../Uploader";
 
