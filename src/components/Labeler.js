@@ -1,10 +1,9 @@
-import React, { useCallback, useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Cropper from "react-cropper";
 import "cropperjs/dist/cropper.css";
 import { Button, Card, Form, Image, Input, Space, Typography } from "antd";
 import styled from "styled-components";
 import { ScrollMenu } from "react-horizontal-scrolling-menu";
-
 // const Arrow = styled.div`
 //   width: 50px;
 //   display: flex;
@@ -19,49 +18,6 @@ import { ScrollMenu } from "react-horizontal-scrolling-menu";
 //   return <Arrow>{"->"}</Arrow>;
 // };
 
-const LOADED_DATA = [
-  {
-    x: 158.33890909090906,
-    y: 16.927999999999937,
-    width: 33.088000000000044,
-    height: 45.408000000000044,
-    rotate: 0,
-    scaleX: 1,
-    scaleY: 1,
-    text: "글",
-  },
-  {
-    x: 328.79999999999995,
-    y: 19.439999999999973,
-    width: 55.84000000000003,
-    height: 42.400000000000034,
-    rotate: 0,
-    scaleX: 1,
-    scaleY: 1,
-    text: "쓰",
-  },
-  {
-    x: 231.35999999999996,
-    y: 100.07999999999997,
-    width: 55.84000000000003,
-    height: 42.400000000000034,
-    rotate: 0,
-    scaleX: 1,
-    scaleY: 1,
-    text: "무",
-  },
-  {
-    x: 244.79999999999998,
-    y: 22.799999999999972,
-    width: 55.84000000000003,
-    height: 42.400000000000034,
-    rotate: 0,
-    scaleX: 1,
-    scaleY: 1,
-    text: "많",
-  },
-];
-
 const Container = styled.div`
   display: flex;
   flex-direction: column;
@@ -75,14 +31,59 @@ const ImageContainer = styled.div`
   height: 200px;
 `;
 
-const Labeler = () => {
+const Labeler = ({ data }) => {
   const cropperRef = useRef(null);
   const [cropForm] = Form.useForm();
   const [croppedData, setCroppedData] = useState([]);
   const [croppedURL, setCroppedURL] = useState([]);
+  const [ready, setReady] = useState(false);
   const [isEdit, setIsEdit] = useState(false);
   const [editIndex, setEditIndex] = useState(0);
 
+  useEffect(() => {
+    const loadData = () => {
+      let url = [];
+      const cropper = cropperInit();
+
+      for (let item of data) {
+        cropper.setData(item);
+        url.push(cropper.getCroppedCanvas()?.toDataURL());
+      }
+
+      setCroppedData(data);
+      setCroppedURL(url);
+    };
+
+    console.log(ready, data);
+    if (ready && data.length !== 0) {
+      loadData();
+    }
+  }, [ready, data]);
+  const onSubmit = () => {
+    // let copy = [];
+    const copy = croppedData.map((data) => {
+      let c = {
+        ...data,
+        x: Math.round(data.x),
+        y: Math.round(data.y),
+        height: Math.round(data.height),
+        width: Math.round(data.width),
+      };
+      return c;
+    });
+
+    console.log(copy);
+    // for (let c of copy) {
+    //   console.log(c);
+    // }
+    // copy.map((data) => {
+    //   console.log(
+    //     `${data.text} ${data.x} ${228 - data.y - data.height} ${
+    //       data.width + data.x
+    //     } ${228 - data.y} 0`
+    //   );
+    // });
+  };
   const cropperInit = () => {
     return cropperRef?.current?.cropper;
   };
@@ -95,22 +96,6 @@ const Labeler = () => {
     cropForm.resetFields();
     setCroppedData([resultData, ...croppedData]);
     setCroppedURL([resultURL, ...croppedURL]);
-  };
-
-  const loadData = (loadedData) => {
-    let url = [];
-    const cropper = cropperInit();
-
-    for (let data of loadedData) {
-      cropper.setData(data);
-      url.push(cropper.getCroppedCanvas()?.toDataURL());
-    }
-    setCroppedData(loadedData);
-    setCroppedURL(url);
-  };
-
-  const onFinishFailed = (errorInfo) => {
-    console.log(errorInfo);
   };
 
   const updateText = (index) => (e) => {
@@ -144,7 +129,6 @@ const Labeler = () => {
 
     const resultData = cropper.getData();
     const resultURL = cropper.getCroppedCanvas().toDataURL();
-
     let editData = [...croppedData];
     let editURL = [...croppedURL];
 
@@ -157,6 +141,10 @@ const Labeler = () => {
     setIsEdit(false);
   };
 
+  const onFinishFailed = (errorInfo) => {
+    console.log(errorInfo);
+  };
+
   return (
     <>
       <Container>
@@ -167,14 +155,14 @@ const Labeler = () => {
         <Space style={{ marginBottom: 8 }}>
           <div>
             <Cropper
-              src="https://static-clova.pstatic.net/static/public/font_event/pc_intro_1008/format_pc_intro_003@2x.jpg"
+              src="https://static-clova.pstatic.net/static/public/font_event/pc_hangeul_1008/format_pc_han_001@2x.jpg"
               style={{ height: 500, width: 600 }}
               initialAspectRatio={1}
               guides={false}
               // crop={onCrop}
               preview=".preview"
               ref={cropperRef}
-              ready={() => loadData(LOADED_DATA)}
+              ready={() => setReady(true)}
             />
           </div>
 
@@ -237,9 +225,6 @@ const Labeler = () => {
                   </Form.Item>
                 </Form>
               )}
-              <Button block onClick={() => loadData(LOADED_DATA)}>
-                setData
-              </Button>
             </Space>
           </div>
         </Space>
@@ -273,11 +258,7 @@ const Labeler = () => {
             ))}
           </Space>
         </ScrollMenu>
-        <Button
-          size="large"
-          onClick={() => console.log(croppedData)}
-          type="primary"
-        >
+        <Button size="large" onClick={() => onSubmit()} type="primary">
           작업 완료
         </Button>
       </ScrollerContainer>

@@ -1,5 +1,5 @@
 import CommonPageLayout from "../components/layout/CommonPageLayout";
-import React, { useState } from "react";
+import React, { useCallback, useState } from "react";
 import { Button, Card, Col, Row, Typography } from "antd";
 import Modal from "antd/lib/modal/Modal";
 import UploadProject from "../components/UploadProject";
@@ -22,11 +22,17 @@ const ProjectList = () => {
       setIsModalVisible(false);
     }
   };
+  const [test, setTest] = useState(0);
 
+  const kkk = useCallback(() => {
+    console.log(test);
+  }, [test]);
   const history = useHistory();
   return (
     <>
       <CommonPageLayout>
+        <Button onClick={() => kkk}>test</Button>
+        <Button onClick={() => setTest(1)}>test</Button>
         <Button onClick={showModal}>새 프로젝트 등록</Button>
         <Modal
           title="프로젝트 등록"
