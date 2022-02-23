@@ -4,15 +4,22 @@ import { ApolloClient, InMemoryCache } from "@apollo/client";
 import { createUploadLink } from "apollo-upload-client";
 import { setContext } from "@apollo/client/link/context";
 
-export const currentUserVar = makeVar([]);
+// export const currentUserVar = makeVar([]);
+export const testsVar = makeVar([]);
+export const isLoggedInVar = makeVar(!!localStorage.getItem("token"));
 
 export const cache = new InMemoryCache({
   typePolicies: {
     Query: {
       fields: {
+        isLoggedIn: {
+          read() {
+            return isLoggedInVar();
+          },
+        },
         user: {
           read() {
-            return currentUserVar();
+            // return currentUserVar();
           },
         },
       },
@@ -21,7 +28,8 @@ export const cache = new InMemoryCache({
 });
 const link = createUploadLink({ uri: "http://localhost:4000/" });
 const contextSetter = (_, { headers }) => {
-  const token = currentUserVar()?.token | localStorage.getItem("token");
+  // const token = currentUserVar()?.token | localStorage.getItem("token");
+  const token = localStorage.getItem("token");
   return {
     headers: {
       ...headers,

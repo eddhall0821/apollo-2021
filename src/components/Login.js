@@ -1,13 +1,12 @@
 import { Form, Input, Button, Modal } from "antd";
 import React, { useState } from "react";
 import { gql } from "apollo-boost";
-import { useMutation } from "@apollo/react-hooks";
-import { currentUserVar } from "../apollo";
+import { useMutation, useQuery } from "@apollo/react-hooks";
 import styled from "styled-components";
 import Register from "./Register";
+import { isLoggedInVar } from "../apollo";
 
 const LoginButton = styled.div``;
-
 export const LOGIN = gql`
   mutation Login($userId: String!, $password: String!) {
     login(userId: $userId, password: $password) {
@@ -27,7 +26,8 @@ export const LoginForm = ({ register }) => {
 
   if (data) {
     console.log(data);
-    currentUserVar(data.login);
+    localStorage.setItem("token", data.login.token);
+    isLoggedInVar(true);
   }
 
   if (error) {

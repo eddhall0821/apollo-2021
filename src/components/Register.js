@@ -1,16 +1,42 @@
+import { useMutation } from "@apollo/react-hooks";
 import { Button, Form, Input, Modal } from "antd";
+import { gql } from "apollo-boost";
 import React, { useState } from "react";
 import styled from "styled-components";
 import Login from "./Login";
 const RegisterButton = styled.div``;
+export const REGISTER = gql`
+  mutation Login($userId: String!, $nickname: String!, $password: String!) {
+    signUp(userId: $userId, nickname: $nickname, password: $password)
+  }
+`;
 
 const RegisterForm = ({ login }) => {
+  const [register, { data }] = useMutation(REGISTER);
+
+  const onFinish = ({ userId, nickname, password }) => {
+    register({ variables: { userId, nickname, password } });
+  };
+
+  const onFinishFailed = () => {
+    console.log("FAILED");
+  };
+
+  if (data) {
+    console.log(data);
+    if (data.signUp) {
+      console.log("성공");
+    } else {
+      console.log("실패");
+    }
+  }
+
   return (
     <Form
       name="basic"
       initialValues={{ remember: true }}
-      // onFinish={onFinish}
-      // onFinishFailed={onFinishFailed}
+      onFinish={onFinish}
+      onFinishFailed={onFinishFailed}
       layout="vertical"
       autoComplete="off"
       requiredMark={"optional"}

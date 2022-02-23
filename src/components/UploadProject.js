@@ -1,5 +1,5 @@
 import React from "react";
-import { Button, DatePicker, Form, Input, Select } from "antd";
+import { Button, DatePicker, Form, Input, InputNumber, Select } from "antd";
 import { Uploader } from "../Uploader";
 
 const UploadProject = ({ handleOk }) => {
@@ -10,9 +10,9 @@ const UploadProject = ({ handleOk }) => {
       end_date: values.project_date[1].format("YYYY-MM-DD"),
     };
     delete data.project_date;
-
+    console.log("DATA");
     console.log(data);
-    handleOk();
+    // handleOk();
   };
 
   const onFinishFailed = (e) => {
@@ -61,12 +61,19 @@ const UploadProject = ({ handleOk }) => {
             <Select.Option value="upload">이미지 라벨링</Select.Option>
           </Select>
         </Form.Item>
+        <Form.Item
+          label="목표량"
+          name="amount"
+          rules={[{ required: true, message: "목표량을 입력해주세요." }]}
+        >
+          <InputNumber style={{ width: "100%" }} min={1} max={500} />
+        </Form.Item>
         <Form.Item label="파일 업로드">
           <Uploader />
         </Form.Item>
         <Form.Item>
           <Button htmlType="submit" type="primary" block>
-            프로젝트 업로드
+            프로젝트 등록
           </Button>
         </Form.Item>
       </Form>
