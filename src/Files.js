@@ -5,6 +5,7 @@ import React from "react";
 export const filesQuery = gql`
   {
     files {
+      id
       filename
     }
   }
@@ -25,7 +26,7 @@ export const Files = () => {
         <img
           style={{ width: 200 }}
           key={index}
-          src={`http://localhost:4000/images/${file.filename}`}
+          src={`http://localhost:4000/images/${file.id}/${file.filename}`}
           alt={file.filename}
         />
       ))}

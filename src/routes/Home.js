@@ -143,17 +143,6 @@ const Content = styled.div`
 `;
 
 const Home = () => {
-  const [movieTitle, setMovieTitle] = useState("");
-
-  const { loading, error, data } = useQuery(GET_MOVIES);
-  const [addMovie] = useMutation(ADD_MOVIE);
-  const [deleteMovie] = useMutation(DELETE_MOVIE);
-
-  function onSubmit(title) {
-    addMovie({ variables: { title } });
-  }
-
-  console.log(loading, error, data);
   const history = useHistory();
 
   return (
@@ -181,17 +170,6 @@ const Home = () => {
         <Content></Content>
       </ContentWrapper>
       <Files />
-
-      <input
-        type="text"
-        value={movieTitle}
-        onChange={(e) => setMovieTitle(e.target.value)}
-      />
-      <button onClick={() => onSubmit(movieTitle)}>GO!</button>
-      {data &&
-        data.movies &&
-        data.movies.map((movie) => <div key={movie.id}>{movie.title}</div>)}
-      {/* </CommonPageLayout> */}
     </>
   );
 };

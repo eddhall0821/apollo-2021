@@ -18,16 +18,19 @@ export const LOGIN = gql`
   }
 `;
 
-export const LoginForm = ({ register }) => {
+export const LoginForm = ({ handleOk }) => {
   const [login, { data, loading, error }] = useMutation(LOGIN);
   if (loading) {
     console.log(loading);
   }
 
   if (data) {
-    console.log(data);
-    localStorage.setItem("token", data.login.token);
-    isLoggedInVar(true);
+    if (data.login) {
+      localStorage.setItem("token", data.login.token);
+      isLoggedInVar(true);
+    } else {
+      alert("계정 정보가 올바르지 않습니다.");
+    }
   }
 
   if (error) {
@@ -66,11 +69,11 @@ export const LoginForm = ({ register }) => {
 
       <Form.Item>
         <Button type="primary" htmlType="submit" block>
-          Submit
+          로그인
         </Button>
       </Form.Item>
       <Form.Item>
-        <Button block onClick={register}>
+        <Button block onClick={handleOk}>
           <Register />
         </Button>
       </Form.Item>
@@ -104,7 +107,7 @@ const Login = () => {
         onCancel={handleCancel}
         footer={null}
       >
-        <LoginForm register={handleCancel} />
+        <LoginForm handleOk={handleOk} />
       </Modal>
     </>
   );

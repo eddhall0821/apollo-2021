@@ -1,17 +1,34 @@
 import React from "react";
 import { Button, DatePicker, Form, Input, InputNumber, Select } from "antd";
-import { Uploader } from "../Uploader";
+import { gql } from "apollo-boost";
+import { useMutation } from "@apollo/react-hooks";
+
+// mutation AddMovie($title: String!) {
+//   addMovie(data: { title: $title }) {
+//     id
+//     title
+//   }
+// }
+
+export const ADD_PROJECT = gql`
+  mutation AddProject($data: projectInput!) {
+    addProject(data: $data)
+  }
+`;
 
 const UploadProject = ({ handleOk }) => {
+  const [addProject, { data, loading, error }] = useMutation(ADD_PROJECT);
+
   const onFinish = (values) => {
-    const data = {
+    const project = {
       ...values,
       start_date: values.project_date[0].format("YYYY-MM-DD"),
       end_date: values.project_date[1].format("YYYY-MM-DD"),
     };
-    delete data.project_date;
-    console.log("DATA");
-    console.log(data);
+    delete project.project_date;
+    addProject({
+      variables: {data: project},
+    });
     // handleOk();
   };
 
@@ -68,9 +85,9 @@ const UploadProject = ({ handleOk }) => {
         >
           <InputNumber style={{ width: "100%" }} min={1} max={500} />
         </Form.Item>
-        <Form.Item label="파일 업로드">
+        {/* <Form.Item label="파일 업로드">
           <Uploader />
-        </Form.Item>
+        </Form.Item> */}
         <Form.Item>
           <Button htmlType="submit" type="primary" block>
             프로젝트 등록
