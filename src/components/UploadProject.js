@@ -2,6 +2,7 @@ import React from "react";
 import { Button, DatePicker, Form, Input, InputNumber, Select } from "antd";
 import { gql } from "apollo-boost";
 import { useMutation } from "@apollo/react-hooks";
+import {Uploader} from "../Uploader"
 
 // mutation AddMovie($title: String!) {
 //   addMovie(data: { title: $title }) {
@@ -74,8 +75,8 @@ const UploadProject = ({ handleOk }) => {
           rules={[{ required: true, message: "프로젝트 타입을 입력해주세요." }]}
         >
           <Select style={{ width: "100%" }}>
-            <Select.Option value="labeling">이미지 업로드</Select.Option>
-            <Select.Option value="upload">이미지 라벨링</Select.Option>
+            <Select.Option value="labeling">이미지 라벨링</Select.Option>
+            <Select.Option value="upload">이미지 업로드</Select.Option>
           </Select>
         </Form.Item>
         <Form.Item
@@ -85,9 +86,9 @@ const UploadProject = ({ handleOk }) => {
         >
           <InputNumber style={{ width: "100%" }} min={1} max={500} />
         </Form.Item>
-        {/* <Form.Item label="파일 업로드">
+        <Form.Item label="파일 업로드">
           <Uploader />
-        </Form.Item> */}
+        </Form.Item>
         <Form.Item>
           <Button htmlType="submit" type="primary" block>
             프로젝트 등록

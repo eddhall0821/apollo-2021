@@ -5,18 +5,18 @@ import { useMutation } from "@apollo/react-hooks";
 import { filesQuery } from "./Files";
 
 const uploadFileMutation = gql`
-  mutation UploadFile($file: Upload!) {
-    uploadFile(file: $file)
+  mutation UploadFile($file: Upload!, $id: Int!) {
+    uploadFile(file: $file, id: $id)
   }
 `;
 
-export const Uploader = () => {
+export const Uploader = ({ id }) => {
   const [uploadFile] = useMutation(uploadFileMutation, {
     refetchQueries: [{ query: filesQuery }],
   });
   const onDrop = useCallback(
     (file) => {
-      uploadFile({ variables: { file } });
+      uploadFile({ variables: { file, id } });
     },
     [uploadFile]
   );

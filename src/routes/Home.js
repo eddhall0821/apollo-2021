@@ -1,36 +1,35 @@
-import React, { useState } from "react";
-import { gql } from "apollo-boost";
-import { useQuery, useMutation } from "@apollo/react-hooks";
+import React from "react";
 import "filepond/dist/filepond.min.css";
 import { Files } from "../Files";
 import styled from "styled-components";
 import { useHistory } from "react-router-dom";
 import Login from "../components/Login";
 
-const GET_MOVIES = gql`
-  {
-    movies {
-      id
-      title
-    }
-  }
-`;
-const ADD_MOVIE = gql`
-  mutation AddMovie($title: String!) {
-    addMovie(data: { title: $title }) {
-      id
-      title
-    }
-  }
-`;
-const DELETE_MOVIE = gql`
-  mutation DeleteMovie($id: Int!) {
-    deleteMovie(data: { id: $id }) {
-      id
-      title
-    }
-  }
-`;
+// const GET_MOVIES = gql`
+//   {
+//     movies {
+//       id
+//       title
+//     }
+//   }
+// `;
+// const ADD_MOVIE = gql`
+//   mutation AddMovie($title: String!) {
+//     addMovie(data: { title: $title }) {
+//       id
+//       title
+//     }
+//   }
+// `;
+// const DELETE_MOVIE = gql`
+//   mutation DeleteMovie($id: Int!) {
+//     deleteMovie(data: { id: $id }) {
+//       id
+//       title
+//     }
+//   }
+// `;
+
 const HeaderContainer = styled.div`
   z-index: 1;
   position: absolute;

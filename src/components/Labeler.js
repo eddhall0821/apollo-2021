@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import Cropper from "react-cropper";
 import "cropperjs/dist/cropper.css";
-import { Button, Card, Form, Image, Input, Space, Typography } from "antd";
+import { Button, Card, Form, Image, Input, Space } from "antd";
 import styled from "styled-components";
 import { ScrollMenu } from "react-horizontal-scrolling-menu";
 // const Arrow = styled.div`
@@ -59,8 +59,8 @@ const Labeler = ({ data }) => {
       loadData();
     }
   }, [ready, data]);
+  
   const onSubmit = () => {
-    // let copy = [];
     const copy = croppedData.map((data) => {
       let c = {
         ...data,
@@ -73,17 +73,8 @@ const Labeler = ({ data }) => {
     });
 
     console.log(copy);
-    // for (let c of copy) {
-    //   console.log(c);
-    // }
-    // copy.map((data) => {
-    //   console.log(
-    //     `${data.text} ${data.x} ${228 - data.y - data.height} ${
-    //       data.width + data.x
-    //     } ${228 - data.y} 0`
-    //   );
-    // });
   };
+
   const cropperInit = () => {
     return cropperRef?.current?.cropper;
   };
@@ -148,10 +139,6 @@ const Labeler = ({ data }) => {
   return (
     <>
       <Container>
-        <Typography.Title level={3}>
-          글자 영역에 드래그 해주세요.
-        </Typography.Title>
-
         <Space style={{ marginBottom: 8 }}>
           <div>
             <Cropper

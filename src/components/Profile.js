@@ -1,5 +1,4 @@
 import { useQuery } from "@apollo/react-hooks";
-import { Menu } from "antd";
 import { gql } from "apollo-boost";
 import React from "react";
 import Logout from "../routes/Logout";
