@@ -1,13 +1,15 @@
 import CommonPageLayout from "../components/layout/CommonPageLayout";
-import React, { useEffect } from "react";
+import React from "react";
 import Labeler from "../components/Labeler";
 import { useParams } from "react-router-dom";
 import { Typography } from "antd";
 import { gql } from "apollo-boost";
-import { useMutation } from "@apollo/react-hooks";
+import { useQuery } from "@apollo/react-hooks";
+
 const WORKER_FILE = gql`
-  mutation WorkerFile($userId: String!) {
+  query WorkerFile($userId: String!) {
     workerFile(userId: $userId) {
+      _id
       id
       filename
       ai_data {
@@ -26,18 +28,25 @@ const WORKER_FILE = gql`
 
 const Labeling = () => {
   const { id } = useParams();
-  const [workerFile, { data }] = useMutation(WORKER_FILE);
-  useEffect(() => {
-    workerFile({ variables: { userId: "test@test.com" } });
-  }, []);
+  const { data } = useQuery(WORKER_FILE, {
+    variables: { userId: "test@test.com" },
+  });
 
+  console.log(data);
   return (
     <>
       <CommonPageLayout>
         <Typography.Title level={3}>
           글자 영역에 드래그 해주세요.
         </Typography.Title>
-        {data && <Labeler data={data?.workerFile?.ai_data} id={parseInt(id)} />}
+        {data && (
+          <Labeler
+            _id={data?.workerFile?._id}
+            data={data?.workerFile?.ai_data}
+            filename={data?.workerFile?.filename}
+            id={parseInt(id)}
+          />
+        )}
       </CommonPageLayout>
     </>
   );

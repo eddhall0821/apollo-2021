@@ -4,19 +4,14 @@ import "cropperjs/dist/cropper.css";
 import { Button, Card, Form, Image, Input, Space } from "antd";
 import styled from "styled-components";
 import { ScrollMenu } from "react-horizontal-scrolling-menu";
-// const Arrow = styled.div`
-//   width: 50px;
-//   display: flex;
-//   justify-content: center;
-//   align-items: center;
-// `;
+import { gql } from "apollo-boost";
+import { useMutation } from "@apollo/react-hooks";
 
-// const LeftArrow = ({ scrollPrev }) => {
-//   return <Arrow onClick={() => console.log(scrollPrev)}>{"<-"}</Arrow>;
-// };
-// const RightArrow = () => {
-//   return <Arrow>{"->"}</Arrow>;
-// };
+const LABEL_SUBMIT = gql`
+  mutation LabelSubmit($_id: String!, $id: Int!, $data: [labeledDataInput]) {
+    labelSubmit(_id: $_id, id: $id, data: $data)
+  }
+`;
 
 const Container = styled.div`
   display: flex;
@@ -31,7 +26,9 @@ const ImageContainer = styled.div`
   height: 200px;
 `;
 
-const Labeler = ({ data }) => {
+const Labeler = ({ data, id, _id, filename }) => {
+  const [labelSubmit, args] = useMutation(LABEL_SUBMIT);
+
   const cropperRef = useRef(null);
   const [cropForm] = Form.useForm();
   const [croppedData, setCroppedData] = useState([]);
@@ -54,14 +51,15 @@ const Labeler = ({ data }) => {
       setCroppedURL(url);
     };
 
-    console.log(ready, data);
+    console.log(ready, data, _id);
     if (ready && data.length !== 0) {
       loadData();
     }
   }, [ready, data]);
-  
+
   const onSubmit = () => {
-    const copy = croppedData.map((data) => {
+    console.log(_id, id);
+    const labeledDataArray = croppedData.map((data) => {
       let c = {
         ...data,
         x: Math.round(data.x),
@@ -71,8 +69,13 @@ const Labeler = ({ data }) => {
       };
       return c;
     });
+    const data = {
+      id,
+      labeledDataArray,
+    };
+    console.log(_id, id, labeledDataArray);
 
-    console.log(copy);
+    labelSubmit({ variables: { _id, id, data: labeledDataArray } });
   };
 
   const cropperInit = () => {
@@ -140,8 +143,15 @@ const Labeler = ({ data }) => {
     <>
       <Container>
         <Space style={{ marginBottom: 8 }}>
+          {/* <img
+            style={{ width: 200 }}
+            src={`http://localhost:4000/images/${id}/${filename}`}
+            alt="404"
+          /> */}
+
           <div>
             <Cropper
+              // src={`http://localhost:4000/images/${id}/${filename}`}
               src="https://static-clova.pstatic.net/static/public/font_event/pc_hangeul_1008/format_pc_han_001@2x.jpg"
               style={{ height: 500, width: 600 }}
               initialAspectRatio={1}

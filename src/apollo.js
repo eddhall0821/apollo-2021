@@ -9,6 +9,7 @@ export const testsVar = makeVar([]);
 export const isLoggedInVar = makeVar(!!localStorage.getItem("token"));
 
 export const cache = new InMemoryCache({
+  addTypename: false,
   typePolicies: {
     Query: {
       fields: {

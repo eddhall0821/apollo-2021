@@ -2,7 +2,7 @@ import React from "react";
 import { Button, DatePicker, Form, Input, InputNumber, Select } from "antd";
 import { gql } from "apollo-boost";
 import { useMutation } from "@apollo/react-hooks";
-import {Uploader} from "../Uploader"
+import { Uploader } from "../Uploader";
 
 // mutation AddMovie($title: String!) {
 //   addMovie(data: { title: $title }) {
@@ -28,9 +28,9 @@ const UploadProject = ({ handleOk }) => {
     };
     delete project.project_date;
     addProject({
-      variables: {data: project},
+      variables: { data: project },
     });
-    // handleOk();
+    handleOk();
   };
 
   const onFinishFailed = (e) => {
