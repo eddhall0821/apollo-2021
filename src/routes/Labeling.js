@@ -28,8 +28,9 @@ const WORKER_FILE = gql`
 
 const Labeling = () => {
   const { id } = useParams();
+  const userId = localStorage.getItem("userId");
   const { data } = useQuery(WORKER_FILE, {
-    variables: { userId: "test@test.com" },
+    variables: { userId: userId },
   });
 
   console.log(data);

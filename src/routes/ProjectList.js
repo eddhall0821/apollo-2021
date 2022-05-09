@@ -57,14 +57,22 @@ const ProjectList = () => {
           {!loading &&
             data?.projects?.map((project) => (
               <Col span={8} key={project.id}>
-                <Link to={`${project.project_type}/${project.id}`}>
-                  <Card hoverable title={project.project_name} bordered={false}>
-                    <Card.Meta
-                      title={project.project_content}
-                      description={project.project_type}
-                    />
-                  </Card>
-                </Link>
+                <Card title={project.project_name} bordered={false}>
+                  <Card.Meta
+                    title={project.project_content}
+                    description={project.description}
+                  />
+                  <Link to={`upload/${project.id}`}>
+                    <Button style={{ marginBottom: 8, marginTop: 8 }} block>
+                      이미지 업로드
+                    </Button>
+                  </Link>
+                  <Link to={`labeling/${project.id}`}>
+                    <Button block type="primary">
+                      이미지 라벨링
+                    </Button>
+                  </Link>
+                </Card>
               </Col>
             ))}
         </Row>

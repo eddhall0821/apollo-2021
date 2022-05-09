@@ -26,6 +26,7 @@ export const LoginForm = ({ handleOk }) => {
 
   if (data) {
     if (data.login) {
+      localStorage.setItem("userId", data.login.userId)
       localStorage.setItem("token", data.login.token);
       isLoggedInVar(true);
     } else {

@@ -86,9 +86,6 @@ const UploadProject = ({ handleOk }) => {
         >
           <InputNumber style={{ width: "100%" }} min={1} max={500} />
         </Form.Item>
-        <Form.Item label="파일 업로드">
-          <Uploader />
-        </Form.Item>
         <Form.Item>
           <Button htmlType="submit" type="primary" block>
             프로젝트 등록

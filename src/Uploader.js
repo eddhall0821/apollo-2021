@@ -11,7 +11,7 @@ const uploadFileMutation = gql`
 `;
 
 export const Uploader = ({ id }) => {
-  const [uploadFile] = useMutation(uploadFileMutation, {
+  const [uploadFile, { data }] = useMutation(uploadFileMutation, {
     refetchQueries: [{ query: filesQuery }],
   });
   const onDrop = useCallback(
@@ -21,7 +21,6 @@ export const Uploader = ({ id }) => {
     [uploadFile]
   );
   const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop });
-
   return (
     <>
       <div {...getRootProps()}>

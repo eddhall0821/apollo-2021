@@ -1,11 +1,12 @@
 import React, { useEffect, useRef, useState } from "react";
 import Cropper from "react-cropper";
 import "cropperjs/dist/cropper.css";
-import { Button, Card, Form, Image, Input, Space } from "antd";
+import { Button, Card, Form, Input, Space, Image } from "antd";
 import styled from "styled-components";
 import { ScrollMenu } from "react-horizontal-scrolling-menu";
 import { gql } from "apollo-boost";
 import { useMutation } from "@apollo/react-hooks";
+import { filesQuery } from "../Files";
 
 const LABEL_SUBMIT = gql`
   mutation LabelSubmit($_id: String!, $id: Int!, $data: [labeledDataInput]) {
@@ -27,7 +28,13 @@ const ImageContainer = styled.div`
 `;
 
 const Labeler = ({ data, id, _id, filename }) => {
-  const [labelSubmit, args] = useMutation(LABEL_SUBMIT);
+  //refetchQueries 테스트
+  const [labelSubmit, args] = useMutation(LABEL_SUBMIT, {
+    refetchQueries: [{ query: filesQuery }],
+  });
+  // const [uploadFile, { data }] = useMutation(uploadFileMutation, {
+  //   refetchQueries: [{ query: filesQuery }],
+  // });
 
   const cropperRef = useRef(null);
   const [cropForm] = Form.useForm();
@@ -58,7 +65,6 @@ const Labeler = ({ data, id, _id, filename }) => {
   }, [ready, data]);
 
   const onSubmit = () => {
-    console.log(_id, id);
     const labeledDataArray = croppedData.map((data) => {
       let c = {
         ...data,
@@ -74,8 +80,8 @@ const Labeler = ({ data, id, _id, filename }) => {
       labeledDataArray,
     };
     console.log(_id, id, labeledDataArray);
-
     labelSubmit({ variables: { _id, id, data: labeledDataArray } });
+    console.log(args);
   };
 
   const cropperInit = () => {
@@ -93,10 +99,11 @@ const Labeler = ({ data, id, _id, filename }) => {
   };
 
   const updateText = (index) => (e) => {
-    let newArr = [...croppedData];
-    newArr[index].text = e.target.value;
-
-    setCroppedData(newArr);
+    setCroppedData(
+      croppedData.map((item, i) =>
+        i === index ? { ...item, text: e.target.value } : item
+      )
+    );
   };
 
   const deleteText = (index) => {
@@ -121,12 +128,12 @@ const Labeler = ({ data, id, _id, filename }) => {
     const cropper = cropperInit();
     cropper.getData();
 
-    const resultData = cropper.getData();
+    let resultData = cropper.getData();
     const resultURL = cropper.getCroppedCanvas().toDataURL();
     let editData = [...croppedData];
     let editURL = [...croppedURL];
 
-    editData[editIndex] = Object.assign(editData[editIndex], resultData);
+    editData[editIndex] = Object.assign({}, editData[editIndex], resultData);
     editURL[editIndex] = resultURL;
 
     cropForm.resetFields();
@@ -143,22 +150,17 @@ const Labeler = ({ data, id, _id, filename }) => {
     <>
       <Container>
         <Space style={{ marginBottom: 8 }}>
-          {/* <img
-            style={{ width: 200 }}
-            src={`http://localhost:4000/images/${id}/${filename}`}
-            alt="404"
-          /> */}
-
           <div>
             <Cropper
-              // src={`http://localhost:4000/images/${id}/${filename}`}
-              src="https://static-clova.pstatic.net/static/public/font_event/pc_hangeul_1008/format_pc_han_001@2x.jpg"
+              src={`http://localhost:4000/images/${id}/${filename}`}
+              // src="https://static-clova.pstatic.net/static/public/font_event/pc_hangeul_1008/format_pc_han_001@2x.jpg"
               style={{ height: 500, width: 600 }}
               initialAspectRatio={1}
               guides={false}
-              // crop={onCrop}
               preview=".preview"
               ref={cropperRef}
+              // checkCrossOrigin={false}
+              // crossOrigin="anonymous"
               ready={() => setReady(true)}
             />
           </div>
@@ -213,7 +215,7 @@ const Labeler = ({ data, id, _id, filename }) => {
                       },
                     ]}
                   >
-                    <Input maxLength={1} size="large" />
+                    <Input size="large" />
                   </Form.Item>
                   <Form.Item>
                     <Button htmlType="submit" block type="primary" size="large">
@@ -230,7 +232,12 @@ const Labeler = ({ data, id, _id, filename }) => {
         <ScrollMenu>
           <Space>
             {croppedData.map((result, i) => (
-              <Card key={i} hoverable style={{ width: 240 }}>
+              <Card
+                onClick={() => editText(i)}
+                key={i}
+                hoverable
+                style={{ width: 240 }}
+              >
                 <ImageContainer>
                   <Image
                     style={{ maxHeight: 180, maxWidth: 200 }}
@@ -239,14 +246,7 @@ const Labeler = ({ data, id, _id, filename }) => {
                 </ImageContainer>
 
                 <Space direction="vertical">
-                  <Input
-                    maxLength={1}
-                    value={result.text}
-                    onChange={updateText(i)}
-                  />
-                  <Button onClick={() => editText(i)} block>
-                    수정
-                  </Button>
+                  <Input value={result.text} onChange={updateText(i)} />
                   <Button block danger onClick={() => deleteText(i)}>
                     삭제
                   </Button>
