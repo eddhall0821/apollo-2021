@@ -19,6 +19,14 @@ export const GET_PROJECTLIST = gql`
   }
 `;
 
+export const GET_CSV = gql`
+  {
+    projects {
+      id
+    }
+  }
+`;
+
 const ProjectList = () => {
   const { data, loading } = useQuery(GET_PROJECTLIST);
 
@@ -68,8 +76,13 @@ const ProjectList = () => {
                     </Button>
                   </Link>
                   <Link to={`labeling/${project.id}`}>
-                    <Button block type="primary">
+                    <Button style={{ marginBottom: 8 }} block type="primary">
                       이미지 라벨링
+                    </Button>
+                  </Link>
+                  <Link to={`download/${project.id}`}>
+                    <Button block type="danger">
+                      export CSV
                     </Button>
                   </Link>
                 </Card>

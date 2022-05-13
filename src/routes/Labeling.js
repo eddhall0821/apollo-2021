@@ -38,7 +38,7 @@ const Labeling = () => {
     <>
       <CommonPageLayout>
         <Typography.Title level={3}>
-          글자 영역에 드래그 해주세요.
+          더블 클릭 시 이동모드, 라벨모드
         </Typography.Title>
         {data && (
           <Labeler
