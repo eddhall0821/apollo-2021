@@ -79,7 +79,6 @@ const Labeler = ({ data, id, _id, filename }) => {
       id,
       labeledDataArray,
     };
-    console.log(_id, id, labeledDataArray);
     labelSubmit({ variables: { _id, id, data: labeledDataArray } });
     console.log(args);
   };
