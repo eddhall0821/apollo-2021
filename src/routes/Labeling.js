@@ -12,6 +12,8 @@ const WORKER_FILE = gql`
       _id
       id
       filename
+      original_width
+      original_height
       ai_data {
         x
         y
@@ -45,6 +47,8 @@ const Labeling = () => {
             _id={data?.workerFile?._id}
             data={data?.workerFile?.ai_data}
             filename={data?.workerFile?.filename}
+            original_width={data?.workerFile?.original_width}
+            original_height={data?.workerFile?.original_height}
             id={parseInt(id)}
           />
         )}

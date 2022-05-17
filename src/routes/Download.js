@@ -3,8 +3,7 @@ import React, { useState } from "react";
 import { useQuery } from "@apollo/react-hooks";
 import { gql } from "apollo-boost";
 import { useParams } from "react-router-dom";
-import { CSVLink, CSVDownload } from "react-csv";
-import { useEffect } from "react/cjs/react.production.min";
+import { CSVLink } from "react-csv";
 
 export const PROJECT = gql`
   query Project($id: Int!) {

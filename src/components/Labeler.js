@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import Cropper from "react-cropper";
 import "cropperjs/dist/cropper.css";
-import { Button, Card, Form, Input, Space, Image } from "antd";
+import { Button, Card, Form, Input, Space, Image as ImageTag } from "antd";
 import styled from "styled-components";
 import { ScrollMenu } from "react-horizontal-scrolling-menu";
 import { gql } from "apollo-boost";
@@ -27,7 +27,7 @@ const ImageContainer = styled.div`
   height: 200px;
 `;
 
-const Labeler = ({ data, id, _id, filename }) => {
+const Labeler = ({ data, id, _id, filename, original_width, original_height }) => {
   //refetchQueries 테스트
   const [labelSubmit, args] = useMutation(LABEL_SUBMIT, {
     refetchQueries: [{ query: filesQuery }],
@@ -145,6 +145,23 @@ const Labeler = ({ data, id, _id, filename }) => {
     console.log(errorInfo);
   };
 
+  const Canvas = ({ id, filename }) => {
+    const canvas = React.useRef();
+    React.useEffect(() => {
+      const context = canvas.current.getContext('2d');
+      const image = new Image();
+      image.src = `http://localhost:4000/images/${id}/${filename}`;
+      image.onload = () => {
+        console.log("draw")
+        context.drawImage(image, 0, 0);
+      };
+
+    });
+    return (
+      <canvas ref={canvas} width={original_width} height={original_height} />
+    );
+  };
+
   return (
     <>
       <Container>
@@ -225,6 +242,10 @@ const Labeler = ({ data, id, _id, filename }) => {
               )}
             </Space>
           </div>
+          {
+            id && filename && <Canvas id={id} filename={filename} />
+          }
+
         </Space>
       </Container>
       <ScrollerContainer>
@@ -238,7 +259,7 @@ const Labeler = ({ data, id, _id, filename }) => {
                 style={{ width: 240 }}
               >
                 <ImageContainer>
-                  <Image
+                  <ImageTag
                     style={{ maxHeight: 180, maxWidth: 200 }}
                     src={croppedURL[i]}
                   />
