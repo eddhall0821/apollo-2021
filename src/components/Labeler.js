@@ -7,6 +7,7 @@ import { ScrollMenu } from "react-horizontal-scrolling-menu";
 import { gql } from "apollo-boost";
 import { useMutation } from "@apollo/react-hooks";
 import { filesQuery } from "../Files";
+import { SERVER } from "../apollo";
 
 const LABEL_SUBMIT = gql`
   mutation LabelSubmit($_id: String!, $id: Int!, $data: [labeledDataInput]) {
@@ -150,7 +151,7 @@ const Labeler = ({ data, id, _id, filename, original_width, original_height }) =
     React.useEffect(() => {
       const context = canvas.current.getContext('2d');
       const image = new Image();
-      image.src = `http://localhost:4000/images/${id}/${filename}`;
+      image.src = `${SERVER}/images/${id}/${filename}`;
       image.onload = () => {
         console.log("draw")
         context.drawImage(image, 0, 0);
@@ -168,7 +169,7 @@ const Labeler = ({ data, id, _id, filename, original_width, original_height }) =
         <Space style={{ marginBottom: 8 }}>
           <div>
             <Cropper
-              src={`http://localhost:4000/images/${id}/${filename}`}
+              src={`${SERVER}/images/${id}/${filename}`}
               // src="https://static-clova.pstatic.net/static/public/font_event/pc_hangeul_1008/format_pc_han_001@2x.jpg"
               style={{ height: 500, width: 600 }}
               initialAspectRatio={1}

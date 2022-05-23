@@ -1,6 +1,7 @@
 import { useQuery } from "@apollo/react-hooks";
 import gql from "graphql-tag";
 import React from "react";
+import { SERVER } from "./apollo";
 
 export const filesQuery = gql`
   {
@@ -26,7 +27,7 @@ export const Files = () => {
         <img
           style={{ width: 200 }}
           key={index}
-          src={`http://localhost:4000/images/${file.id}/${file.filename}`}
+          src={`${SERVER}${file.id}/${file.filename}`}
           alt={file.filename}
         />
       ))}
