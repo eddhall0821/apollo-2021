@@ -80,6 +80,11 @@ const ProjectList = () => {
                       이미지 라벨링
                     </Button>
                   </Link>
+                  <Link to={`uploaded/${project.id}`}>
+                    <Button style={{ marginBottom: 8 }} block>
+                      업로드된 이미지
+                    </Button>
+                  </Link>{" "}
                   <Link to={`download/${project.id}`}>
                     <Button block type="danger">
                       export CSV

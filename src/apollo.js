@@ -8,8 +8,8 @@ import { setContext } from "@apollo/client/link/context";
 export const testsVar = makeVar([]);
 export const isLoggedInVar = makeVar(!!localStorage.getItem("token"));
 
-export const SERVER = "http://211.107.210.141:4000"
-// export const SERVER = "http://localhost:4000"
+// export const SERVER = "http://211.107.210.141:4000"
+export const SERVER = "http://localhost:4000"
 
 export const cache = new InMemoryCache({
   addTypename: false,

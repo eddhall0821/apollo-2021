@@ -27,7 +27,7 @@ export const Files = () => {
         <img
           style={{ width: 200 }}
           key={index}
-          src={`${SERVER}${file.id}/${file.filename}`}
+          src={`${SERVER}/images/${file.id}/${file.filename}`}
           alt={file.filename}
         />
       ))}
