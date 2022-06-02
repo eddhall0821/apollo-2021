@@ -7,6 +7,7 @@ import Labeling from "../routes/Labeling";
 import Download from "../routes/Download";
 import ProjectList from "../routes/ProjectList";
 import Detail from "../routes/Detail";
+import Tesseract from "../routes/Tesseract";
 
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
       <Route path="/uploaded/:id" component={Uploaded} />
       <Route path="/labeling/:id" component={Labeling} />
       <Route path="/download/:id" component={Download} />
+      <Route path="/tesseract/:id" component={Tesseract} />
       <Route path="/project_list" component={ProjectList} />
     </Router>
   );

@@ -86,9 +86,12 @@ const ProjectList = () => {
                     </Button>
                   </Link>{" "}
                   <Link to={`download/${project.id}`}>
-                    <Button block type="danger">
+                    <Button style={{ marginBottom: 8 }} block type="danger">
                       export CSV
                     </Button>
+                  </Link>
+                  <Link to={`tesseract/${project.id}`}>
+                    <Button block>TESSERACT</Button>
                   </Link>
                 </Card>
               </Col>
